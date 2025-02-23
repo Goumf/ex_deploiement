@@ -1,0 +1,3 @@
+FROM alpine:latest
+RUN apt update && apt insall apache2 && rm /var/cache/apk/*
+COPY index.html /var/www/html
