@@ -1,3 +1,4 @@
 FROM alpine:latest
-RUN apt update && apt insall apache2 && rm /var/cache/apk/*
-COPY index.html /var/www/html
+RUN apk --no-cache upgrade && apk add --no-cache apache2 && mkdir/run/apache2 && rm /var/cache/apk/*
+COPY index.html /var/www/localhost/htdocs/
+
