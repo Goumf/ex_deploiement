@@ -19,3 +19,14 @@ services :
       - 9080:80
     depends_on : 
       - backend
+      - frontend
+
+  frontend :
+    build : 
+      context : . 
+      dockerfile : dockerfile.front
+    restart: always
+    volumes : 
+      - ./index2.html:/var/www/localhost/htdocs/index.html
+    ports :
+      - 8091:80

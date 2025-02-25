@@ -1,0 +1,6 @@
+FROM alpine:latest
+RUN apk --no-cache upgrade && apk add --no-cache bash && apk add --no-cache apache2
+COPY index2.html /var/www/localhost/htdocs/
+RUN mv /var/www/localhost/htdocs/index2.html /var/www/localhost/htdocs/index.html
+CMD ["/usr/sbin/httpd", "-D", "FOREGROUND"]
+
