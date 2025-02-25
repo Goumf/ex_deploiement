@@ -1,0 +1,5 @@
+FROM nginx:latest
+RUN apt --no-cache upgrade && apk add --no-cache bash && apk add --no-cache apache2
+COPY nginx.conf /etc/nginx.conf && defaut.conf /etc/nginx/conf.d/
+CMD ["/usr/sbin/httpd", "-D", "FOREGROUND"]
+
