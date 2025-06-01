@@ -1,0 +1,56 @@
+services:
+  db:
+    # https://hub.docker.com/_/mysql
+    image: mysql
+    restart : always
+    environment :
+      MYSQL_ROOT_PASSWORD : 1234
+      MYSQL_DATABASE: DB_DE_TEST
+    volumes : 
+      - /d"CAS IDD"/Git/kubetest/pratique:/var/lib/mysql
+    expose : 
+      - 3306
+      - 33060
+
+
+  db_php:
+    image : phpmyadmin
+    restart : always
+    
+    environment :
+      PMA_ARBITRARY : 1
+      PMA_HOST : db
+      PMA_USER : root
+      PMA_PASSWORD : 1234
+      APACHE_PORT : 9443
+
+    volumes : 
+      - /d"CAS IDD"/Git/kubetest/pratique:/etc/phpmyadmin
+  
+  wordpress:
+    # https://hub.docker.com/_/wordpress
+    image: wordpress
+    restart : always
+    environment : 
+      WORDPRESS_DB_HOST : db
+      WORDPRESS_DB_PASSWORD : 1234
+      WORDPRESS_DB_NAME : DB_DE_TEST
+
+    ports : 
+      - 8080:80
+
+    volumes:
+      - /d"CAS IDD"/Git/kubetest/pratique:/var/www/html
+
+  
+
+
+
+
+#compléter le compose pour qu'il fonctionne et que le container de wordpress 
+#puisse communiquer avec la DB. 
+#dans la doc - on trouve comment on définit le mot de passe 
+#les ports de communications entre les services - etc.
+#le but est de comprendre ligne par ligne ce qui se passe
+#
+#on peut ajouter un phpmyadmin à notre word press. on doit trouver comment faire pour faire communiquer les éléments entre eux 

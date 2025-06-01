@@ -1,0 +1,71 @@
+version : "3"                         #version 3 doit figurer avec les "" pour donner la bonne version de déploiement
+
+services:
+  wordpress:
+    # https://hub.docker.com/_/wordpress
+    image: wordpress
+    restart : always
+    environment : 
+      WORDPRESS_DB_HOST : db
+      WORDPRESS_DB_USER: guillaume
+      WORDPRESS_DB_PASSWORD: 1234
+      WORDPRESS_DB_NAME: dbase
+
+    ports : 
+      - 80:80
+
+    volumes:
+      - ./wp:/var/www/html             #le chemin complet ne doit pas être entré. Seulement depuis l'endroit où se trouve le compose.yml. Il faut faire attention que les répertoires locaux soient uniques et pas partagés avec les autres services         
+                                       #si le répertoire n'existe pas, il le crée 
+  db:
+    # https://hub.docker.com/_/mysql
+    image: mysql
+    restart : always
+    environment :
+      MYSQL_ROOT_PASSWORD : 1234
+      MYSQL_DATABASE: dbase
+      MYSQL_USER: guillaume
+      MYSQL_PASSWORD: 1234
+    volumes : 
+      - ./db:/var/lib/mysql           #pareil, le volume doit être seul pour lui
+
+
+  db_php:
+    image : phpmyadmin
+    restart : always
+    
+    environment :
+      #PMA_ARBITRARY : 1
+      PMA_HOST : db
+      #PMA_USER : guillaume
+      PMA_PASSWORD : 1234
+      #APACHE_PORT : 9443
+
+    ports:
+      - 8080:80
+#    volumes :                          #ce volume là est plus compliqué. Il faudrait si on veut l'utiliser (notamment pour sauver des configs) créer un autre rep de destination et aller faire un copier-coller dans le répertoire final qu'on voudrait utiliser.
+#      - ./phpmyadmin:/etc/phpmyadmin
+
+  
+
+
+volumes :                             # ce sont des valeurs que les dockers vont utiliser en interne, on peut les mentionner ici, mais cela n'a pas grande utilité.
+  worpress :
+  db :
+  db_php :
+
+  
+  
+
+  
+
+
+
+
+#compléter le compose pour qu'il fonctionne et que le container de wordpress 
+#puisse communiquer avec la DB. 
+#dans la doc - on trouve comment on définit le mot de passe 
+#les ports de communications entre les services - etc.
+#le but est de comprendre ligne par ligne ce qui se passe
+#
+#on peut ajouter un phpmyadmin à notre word press. on doit trouver comment faire pour faire communiquer les éléments entre eux 
